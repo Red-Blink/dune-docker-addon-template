@@ -22,7 +22,7 @@ Addons run inside the console as iframe pages and talk to the console through a 
    ```
 
 6. Upload the generated `.zip` from `dist/` to a GitHub Release.
-7. Add your addon entry to the community addons index.
+7. Add your addon entry to the community addons index. The index points server owners to your reviewed release package.
 
 ## Addon Package Rules
 
@@ -90,7 +90,7 @@ Read-only SQL should use `database.query`. Write SQL must use `database.execute`
 
 ## Community Index Entry
 
-After creating a GitHub Release and uploading your `.zip`, add an entry to the community addons repository:
+After creating a GitHub Release and uploading your `.zip`, add a manifest file for your addon release, then add a short index entry that points to that manifest. The console reads the index first, then reads the manifest for install details.
 
 ```json
 {
@@ -99,9 +99,28 @@ After creating a GitHub Release and uploading your `.zip`, add an entry to the c
   "description": "A starter addon for Dune Docker Console.",
   "author": "Your Name",
   "version": "0.1.0",
+  "manifestUrl": "https://raw.githubusercontent.com/Red-Blink/dune-docker-addons/main/addons/my-dune-addon.json"
+}
+```
+
+The manifest referenced by `manifestUrl` contains the install details:
+
+```json
+{
+  "schemaVersion": 1,
+  "id": "my-dune-addon",
+  "name": "My Dune Addon",
+  "description": "A starter addon for Dune Docker Console.",
+  "author": "Your Name",
+  "version": "0.1.0",
+  "type": "ui",
   "sourceUrl": "https://github.com/YourName/my-dune-addon",
   "downloadUrl": "https://github.com/YourName/my-dune-addon/releases/download/v0.1.0/my-dune-addon-0.1.0.zip",
-  "sha256": "replace-with-package-sha256"
+  "sha256": "replace-with-package-sha256",
+  "permissions": {
+    "players": ["read"],
+    "database": ["read"]
+  }
 }
 ```
 
