@@ -4,6 +4,20 @@ Starter template for building community addons for Dune Docker Console.
 
 Addons run inside the console as iframe pages and talk to the console through a permissioned bridge. Server owners review requested permissions when installing an addon.
 
+## How This Works
+
+There are three repositories involved:
+
+- This template repo: start here when building a new addon.
+- Your addon repo: this is where your addon code and GitHub Releases live.
+- The community addon index: submit a pull request here when your addon is ready.
+
+Community addon index:
+
+```text
+https://github.com/Red-Blink/dune-docker-addons
+```
+
 ## Create Your Addon
 
 1. Click **Use this template** on GitHub.
@@ -23,6 +37,31 @@ Addons run inside the console as iframe pages and talk to the console through a 
 
 6. Upload the generated `.zip` from `dist/` to a GitHub Release.
 7. Add your addon entry to the community addons index. The index points server owners to your reviewed release package.
+
+## Submit Your Addon
+
+When your addon is ready, open a pull request to:
+
+```text
+https://github.com/Red-Blink/dune-docker-addons
+```
+
+Your pull request should change exactly these files:
+
+```text
+addons/my-dune-addon.json
+index.json
+```
+
+Use your real addon ID in the filename. For example, if your addon ID is `server-notes`, add:
+
+```text
+addons/server-notes.json
+```
+
+Then add one short entry for it in `index.json`.
+
+Do not put your addon source code in `dune-docker-addons`. Your addon code stays in your own addon repository. The `dune-docker-addons` repo only lists reviewed addon releases.
 
 ## Addon Package Rules
 
@@ -92,6 +131,8 @@ Read-only SQL should use `database.query`. Write SQL must use `database.execute`
 
 After creating a GitHub Release and uploading your `.zip`, add a manifest file for your addon release, then add a short index entry that points to that manifest. The console reads the index first, then reads the manifest for install details.
 
+Add this to `dune-docker-addons/index.json`:
+
 ```json
 {
   "id": "my-dune-addon",
@@ -103,7 +144,7 @@ After creating a GitHub Release and uploading your `.zip`, add a manifest file f
 }
 ```
 
-The manifest referenced by `manifestUrl` contains the install details:
+Then create `dune-docker-addons/addons/my-dune-addon.json` with the install details:
 
 ```json
 {
