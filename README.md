@@ -29,14 +29,28 @@ https://github.com/Red-Blink/dune-docker-addons
    node scripts/validate.js
    ```
 
-5. Package the addon:
+5. Commit and push your addon.
+6. Create a version tag that matches `addon.json`:
 
    ```bash
-   bash scripts/package.sh
+   git tag v0.1.0
+   git push origin v0.1.0
    ```
 
-6. Upload the generated `.zip` from `dist/` to a GitHub Release.
-7. Add your addon entry to the community addons index. The index points server owners to your reviewed release package.
+7. GitHub Actions will validate, package, create the GitHub Release, and upload:
+
+   ```text
+   my-dune-addon-0.1.0.zip
+   my-dune-addon-0.1.0.zip.sha256
+   ```
+
+8. Add your addon entry to the community addons index. The index points server owners to your reviewed release package.
+
+For local testing only, you can still run:
+
+```bash
+bash scripts/package.sh
+```
 
 ## Submit Your Addon
 
@@ -97,6 +111,16 @@ Do not include secrets, private tokens, database dumps, or machine-specific file
 
 Use a unique lowercase `id`, for example `server-notes`, `player-inspector`, or `landsraad-helper`.
 
+## Supported Bridge Actions
+
+These bridge actions are currently available:
+
+| Action | Required permission | Notes |
+| --- | --- | --- |
+| `leadership.players.list` | `players:read` | Reads player summary data exposed by the console. |
+| `database.query` | `database:read` | Runs read-only SQL only. |
+| `database.execute` | `database:write` | Runs write SQL. The console creates a database backup first. |
+
 ## Permissions
 
 Current permission keys:
@@ -106,10 +130,10 @@ Current permission keys:
 | `players:read` | Read player summary data exposed by the console. |
 | `database:read` | Run read-only database queries through the console bridge. |
 | `database:write` | Run write database statements through the console bridge. The console creates a database backup first. |
-| `server:status` | Read server status data when supported. |
-| `server:restart` | Restart services when supported. |
-| `files:addon-data` | Store addon-owned data when supported. |
-| `broadcast:send` | Send in-game broadcasts when supported. |
+| `server:status` | Reserved for reading server status data. |
+| `server:restart` | Reserved for restarting services. |
+| `files:addon-data` | Reserved for storing addon-owned data. |
+| `broadcast:send` | Reserved for sending in-game broadcasts. |
 
 Request only the permissions your addon actually needs.
 
@@ -129,7 +153,7 @@ Read-only SQL should use `database.query`. Write SQL must use `database.execute`
 
 ## Community Index Entry
 
-After creating a GitHub Release and uploading your `.zip`, add a manifest file for your addon release, then add a short index entry that points to that manifest. The console reads the index first, then reads the manifest for install details.
+After the GitHub release workflow creates your `.zip`, add a manifest file for your addon release, then add a short index entry that points to that manifest. The console reads the index first, then reads the manifest for install details.
 
 Add this to `dune-docker-addons/index.json`:
 
@@ -165,7 +189,30 @@ Then create `dune-docker-addons/addons/my-dune-addon.json` with the install deta
 }
 ```
 
-`scripts/package.sh` prints the SHA-256 hash after it creates the `.zip`.
+`scripts/package.sh` and the release workflow both create a `.sha256` file. Use that value for `sha256`.
+
+## Release Workflow
+
+The official release path is GitHub Actions:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The tag version must match the `version` field in `addon.json`. For example:
+
+```json
+"version": "0.1.0"
+```
+
+must be released with:
+
+```text
+v0.1.0
+```
+
+The workflow creates the GitHub Release and uploads the addon zip plus its SHA-256 checksum.
 
 ## Local Preview
 
