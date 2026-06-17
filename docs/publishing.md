@@ -35,3 +35,25 @@ index.json
 ```
 
 Use your real addon ID in the filename. The `addons/*.json` file contains the install details, including `downloadUrl` and `sha256`. The `index.json` file contains the short listing shown in Dune Docker Console.
+
+## Lifecycle In The Community Index
+
+Lifecycle status is managed by the community index, not by your addon's `addon.json`.
+
+When your addon is listed, the `index.json` entry can include:
+
+```json
+"lifecycle": "active",
+"lifecycleMessage": "",
+"lifecycleUrl": ""
+```
+
+Supported states:
+
+- `active`: supported and available for install.
+- `deprecated`: still installable, but may stop receiving updates.
+- `unsupported`: no longer supported and blocked from new installs.
+- `removed`: removed from the catalog and blocked from new installs.
+- `blocked`: blocked for safety; installed copies are disabled by the console.
+
+Most addon developers should use `active` when submitting or updating an addon. If you stop maintaining an addon, open a PR to mark it `unsupported` or `removed` so server owners get a clear warning and a clean uninstall path.

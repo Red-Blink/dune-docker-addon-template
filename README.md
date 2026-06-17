@@ -59,6 +59,8 @@ https://github.com/Red-Blink/dune-docker-addons
 
 When your addon is ready, open a pull request to `dune-docker-addons`. Your PR should add `addons/<your-addon-id>.json` and update `index.json`.
 
+The community index also owns addon lifecycle status, such as `active`, `deprecated`, `unsupported`, `removed`, and `blocked`. Do not put those lifecycle fields in your addon's `addon.json`; they are catalog metadata used by Dune Docker Console to warn users or block unsafe/abandoned addons.
+
 ## Docs
 
 - [Getting Started](docs/getting-started.md)
