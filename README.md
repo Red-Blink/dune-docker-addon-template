@@ -62,13 +62,16 @@ When your addon is ready, open a pull request to `dune-docker-addons`. Your PR s
 ## Docs
 
 - [Getting Started](docs/getting-started.md)
+- [Local Development](docs/local-development.md)
 - [Bridge API](docs/bridge-api.md)
 - [Permissions](docs/permissions.md)
 - [Publishing](docs/publishing.md)
 
 ## Local Preview
 
-You can open `web/index.html` directly in a browser for layout work. Bridge requests only work when the addon is installed and opened inside Dune Docker Console.
+You can open `web/index.html` directly in a browser for layout work. Use mock data there, then install the addon into a local Dune Docker Console instance to test the real bridge.
+
+See [Local Development](docs/local-development.md) for the full local testing workflow.
 
 For local packaging tests only:
 

@@ -23,4 +23,8 @@ web/addon.css    addon styling
    node scripts/validate.js
    ```
 
-For local layout work, open `web/index.html` in a browser. Bridge requests only work after the addon is installed inside Dune Docker Console.
+For local layout work, open `web/index.html` in a browser and use mock data.
+Bridge requests only use the real Dune Docker Console bridge after the addon is
+installed inside Dune Docker Console.
+
+For the full local testing workflow, see [Local Development](local-development.md).

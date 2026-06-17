@@ -17,3 +17,34 @@ const result = await window.DuneAddon.request("leadership.players.list");
 | `database.execute` | `database:write` | Run write SQL. The console creates a database backup first. |
 
 Keep bridge calls small and explicit. Ask only for the permissions your addon actually uses.
+
+## Local Development
+
+The real bridge exists only when your addon is opened inside Dune Docker Console.
+If you open `web/index.html` directly in a browser, use mock data for local UI
+work.
+
+Example:
+
+```js
+async function getPlayers() {
+  if (window.parent === window) {
+    return [
+      {
+        name: "Local Test Player",
+        level: 42,
+        faction: "Atreides",
+        guild: "Dev Guild",
+        status: "Online",
+        map: "Survival_1"
+      }
+    ];
+  }
+
+  const result = await window.DuneAddon.request("leadership.players.list");
+  return result.players || result || [];
+}
+```
+
+For testing real bridge calls before publishing, install the addon into your own
+local Dune Docker Console instance. See [Local Development](local-development.md).
