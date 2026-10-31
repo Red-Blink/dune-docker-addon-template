@@ -6,12 +6,24 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
-          node-version: "20"
+          node-version: "22"
+      - name: Ensure packaging tools are available
+        run: |
+          if ! command -v zip >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y zip
+          fi
       - run: node scripts/validate.js
+      - run: node --test test/*.test.js
+      - run: bash -n scripts/package.sh
+      - run: bash scripts/package.sh

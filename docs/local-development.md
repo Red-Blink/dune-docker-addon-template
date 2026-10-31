@@ -45,7 +45,7 @@ When your addon is inside Dune Docker Console, calls like this go through the
 real bridge:
 
 ```js
-const result = await window.DuneAddon.request("leadership.players.list");
+const result = await window.DuneAddon.request("players.summary.list");
 ```
 
 When your addon is opened directly in a browser, there is no parent console
@@ -66,8 +66,8 @@ async function loadPlayersForDevelopment() {
     ];
   }
 
-  const result = await window.DuneAddon.request("leadership.players.list");
-  return result.players || result || [];
+  const result = await window.DuneAddon.request("players.summary.list");
+  return result.rows || result.players || (Array.isArray(result) ? result : []);
 }
 ```
 
@@ -114,12 +114,12 @@ permissions = ["players:read", "database:read"]
 state_path = Path("runtime/addons/state.json")
 state_path.parent.mkdir(parents=True, exist_ok=True)
 
-try:
-    state = json.loads(state_path.read_text())
-except Exception:
-    state = {}
+state = json.loads(state_path.read_text()) if state_path.exists() else {}
+if not isinstance(state, dict):
+    raise ValueError("Invalid addon state; repair it before continuing")
 
 state[addon_id] = {
+    **state.get(addon_id, {}),
     "enabled": True,
     "approvedPermissions": permissions
 }

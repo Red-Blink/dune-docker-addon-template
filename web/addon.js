@@ -50,8 +50,8 @@
     playersEl.innerHTML = '<p class="empty">Loading players...</p>';
 
     try {
-      const result = await window.DuneAddon.request("leadership.players.list");
-      renderPlayers(result.players || result || []);
+      const result = await window.DuneAddon.request("players.summary.list");
+      renderPlayers(result.rows || result.players || (Array.isArray(result) ? result : []));
       log("Loaded player data.");
     } catch (error) {
       playersEl.innerHTML = `<p class="empty error">${escapeHtml(error.message)}</p>`;

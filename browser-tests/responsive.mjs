@@ -31,7 +31,7 @@ const root=fileURLToPath(new URL('../web/',import.meta.url));
 try{
   const page=await browser.newPage();
   await intercept(page,root,()=>({}));await page.goto('http://layout.test/');
-  await page.evaluate(()=>window.DuneAddon={request:async()=>({players:[{name:'A_Long_Community_Character_Name',guild:'A_Long_Community_Guild_Name_Without_Spaces',faction:'Atreides',level:100}]})});
+  await page.evaluate(()=>window.DuneAddon={request:async(action)=>{if(action!=='players.summary.list')throw new Error('Unexpected action');return {capabilities:{},rows:[{name:'A_Long_Community_Character_Name',guild:'A_Long_Community_Guild_Name_Without_Spaces',faction:'Atreides',level:100}]};}});
   await page.getByRole('button',{name:'Load Players'}).click();
   await page.getByText('A_Long_Community_Character_Name',{exact:true}).waitFor();
   for(const [width,height]of sizes){

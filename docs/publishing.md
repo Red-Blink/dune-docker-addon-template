@@ -19,6 +19,10 @@ Addon code stays in your addon repository. The community index only points serve
    my-dune-addon-0.1.0.zip.sha256
    ```
 
+   Download both files into the same directory and verify them with
+   `sha256sum -c my-dune-addon-0.1.0.zip.sha256` (or
+   `shasum -a 256 -c my-dune-addon-0.1.0.zip.sha256` on macOS).
+
 ## Submit To The Community Index
 
 Open a pull request to:

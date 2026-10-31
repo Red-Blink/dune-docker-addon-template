@@ -31,6 +31,7 @@ Most addon developers only need to edit `addon.json` and files under `web/`.
 
    ```bash
    node scripts/validate.js
+   node --test test/*.test.js
    ```
 
 6. Commit and push your addon.
