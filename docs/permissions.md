@@ -18,6 +18,7 @@ Server owners review addon permissions before installing an addon. Keep permissi
 | `admin:grant-items` | Deliver items through the Console's validated item-grant action. |
 | `broadcast:send` | Reserved for sending in-game broadcasts. |
 | `scheduler:server` | Legacy scheduler permission; not a general addon scheduling API. |
+| `realtime:read` | Read Realtime Data snapshots (`realtime.health`, `realtime.objects`) from the optional position agent. Write it as `"permissions": { "realtime": ["read"] }`. Player objects are returned only if the addon also holds `players:read`. Needs a Console with these bridge actions. |
 
 Declaring a permission does not implement an action or approve access. The owner
 must approve requested permissions when installing or updating. Prefer typed

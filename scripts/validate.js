@@ -17,7 +17,8 @@ const allowedPermissions = new Set([
   "server:restart",
   "files:addon-data",
   "broadcast:send",
-  "scheduler:server"
+  "scheduler:server",
+  "realtime:read"
 ]);
 
 function fail(message) {
