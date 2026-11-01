@@ -17,6 +17,14 @@ test('current player, operations, storage, hardware, reward and message permissi
   const {run}=fixture(t,m=>{m.permissions={players:['read','message'],ops:['read'],files:['addon-data'],server:['status'],rewards:['grant'],admin:['grant-items']};});
   const result=run();assert.equal(result.status,0,result.stderr);
 });
+test('realtime:read validates in every manifest form and lookalikes still fail',t=>{
+  for(const form of [{realtime:['read']},['realtime:read'],{realtime:['read'],players:['read']}]){
+    const {run}=fixture(t,m=>{m.permissions=form;});const result=run();assert.equal(result.status,0,JSON.stringify(form)+result.stderr);
+  }
+  for(const bad of [['realtime.read'],['realtime:write'],['realtime:*'],{realtime:['write']},['realtime:']]){
+    const {run}=fixture(t,m=>{m.permissions=bad;});assert.notEqual(run().status,0,JSON.stringify(bad));
+  }
+});
 test('unknown permissions and unsafe package versions fail validation',t=>{
   for(const change of [m=>m.permissions=['host:exec'],m=>m.version='../../other',m=>m.version='1.0']){const {run}=fixture(t,change);assert.notEqual(run().status,0);}
 });
